@@ -41,17 +41,29 @@ app.post('/interactions', async function (req, res) {
   if (type === InteractionType.APPLICATION_COMMAND) {
     const { name } = data;
 
-    // "help" command
+    // "test" command
     if (name === 'test') {
       // Send a message into the channel where command was triggered from
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-          // Fetches a random emoji to send from a helper function
-          content: 'hello world ' + getRandomEmoji(),
+          // Outputs command list
+          content: 'howdy' + getRandomEmoji(),
         },
       });
     }
+
+    // // "help" command
+    // if (name === 'help') {
+    //   // Send a message into the channel where command was triggered from
+    //   return res.send({
+    //     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    //     data: {
+    //       // Outputs command list
+    //       content: 'Hi there! Here is a list of commands I recognize! \n  zip-code : ' + getRandomEmoji(),
+    //     },
+    //   });
+    // }
     // "challenge" command
   if (name === 'challenge' && id) {
     // Interaction context
