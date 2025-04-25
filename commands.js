@@ -24,6 +24,7 @@ const TEST_COMMAND = {
   type: 1,
 };
 
+
 // Command containing options
 const CHALLENGE_COMMAND = {
   name: 'challenge',
