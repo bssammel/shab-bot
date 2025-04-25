@@ -41,7 +41,7 @@ app.post('/interactions', async function (req, res) {
   if (type === InteractionType.APPLICATION_COMMAND) {
     const { name } = data;
 
-    // "test" command
+    // "help" command
     if (name === 'test') {
       // Send a message into the channel where command was triggered from
       return res.send({
@@ -52,6 +52,43 @@ app.post('/interactions', async function (req, res) {
         },
       });
     }
+    // "challenge" command
+  if (name === 'challenge' && id) {
+    // Interaction context
+    const context = req.body.context;
+    // User ID is in user field for (G)DMs, and member for servers
+    const userId = context === 0 ? req.body.member.user.id : req.body.user.id;
+    // User's object choice
+    const objectName = req.body.data.options[0].value;
+
+    // Create active game using message ID as the game ID
+    activeGames[id] = {
+        id: userId,
+        objectName,
+    };
+
+    return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+        content: `Rock papers scissors challenge from <@${userId}>`,
+        components: [
+        {
+            type: MessageComponentTypes.ACTION_ROW,
+            components: [
+            {
+                type: MessageComponentTypes.BUTTON,
+                // Append the game ID to use later on
+                custom_id: `accept_button_${req.body.id}`,
+                label: 'Accept',
+                style: ButtonStyleTypes.PRIMARY,
+            },
+            ],
+        },
+        ],
+    },
+    });
+  }
+
   }
 });
 
