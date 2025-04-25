@@ -60,7 +60,7 @@ app.post('/interactions', async function (req, res) {
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           // Outputs command list
-          content: 'Hi there! Here is a list of commands I recognize!' + '\n' + 'shabbat-by-zip : will prompt you for a US Zip Code and return candle lighting local time for upcoming Friday' + '\n' + 'havdalah-by-zip: will prompt you for a US Zip Code and return havdalah local time for upcoming Saturday'
+          content: 'Hi there! Here is a list of commands I recognize!' + '\n' + '- shabbat-by-zip : will prompt you for a US Zip Code and return candle lighting local time for upcoming Friday' + '\n' + '- havdalah-by-zip: will prompt you for a US Zip Code and return havdalah local time for upcoming Saturday' + '\n' + "- help: returns list of commands available" + '\n' + "- creator: returns information about who created this bot"
         },
       });
     }
