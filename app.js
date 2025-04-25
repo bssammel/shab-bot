@@ -20,6 +20,16 @@ app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 // Store for in-progress games. In production, you'd want to use a DB
 const activeGames = {};
 
+function getShabbatByZip (zipCode){
+  return fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zipCode}&M=on`)
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      return data.items[0]
+    })
+}
+
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
  */
@@ -55,6 +65,20 @@ app.post('/interactions', async function (req, res) {
 
     // "help" command
     if (name === 'help') {
+      // Send a message into the channel where command was triggered from
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          // Outputs command list
+          content: 'Hi there! Here is a list of commands I recognize!' + '\n' + '- **shabbat-by-zip** : will prompt you for a US Zip Code and return candle lighting local time for upcoming Friday' + '\n' + '- **havdalah-by-zip:** will prompt you for a US Zip Code and return havdalah local time for upcoming Saturday' + '\n' + "- **help**: returns list of commands available" + '\n' + "- **creator**: returns information about who created this bot"
+        },
+      });
+    }
+
+    //shabbat-by-zip command
+        if (name === 'shabbat-by-zip' && zipCode) {
+
+          
       // Send a message into the channel where command was triggered from
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
