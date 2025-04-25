@@ -269,7 +269,7 @@ app.post('/interactions', async function (req, res) {
     }
     return;
   }
-  
+}
 });
 
 app.listen(PORT, () => {
